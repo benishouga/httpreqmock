@@ -1,0 +1,79 @@
+
+httpreqmock
+    version - 1.0.0.0
+    auther - akito moriki(benishouga@gmail.com)
+
+* 概要
+    httpreqmock は、ajaxを使ったjavascriptアプリケーションのUnitTestをサポートするために、
+    XMLHttpRequestをモックオブジェクトで上書きし、擬似サーバを表現するユーティリティです。
+
+* ライセンス
+    - httpreqmock is released under the MIT License.
+    - http://www.opensource.org/licenses/mit-license.php
+
+* できること・良いこと
+    このライブラリを利用することで、ajax関連のjavascript単体テストをする際に、
+    単体テスト用のサーバサイド処理をjavascriptで記述することができるようになります。
+    
+    javascriptだけでテストが行えるために、サーバサイドとクライアントサイドの
+    開発担当者間で分担も行いやすくなると思います。
+    
+    通常XMLHttpRequestオブジェクトを使用するためにはhttpサーバを必要としますが、
+    このライブラリを使うことで、サーバなしでajaxアプリのテストを行うことができます。
+    
+    XMLHttpRequestを上書きして擬似サーバを表現するため、jqueryのajax機能等に対してもテストが可能です。
+
+* サンプル
+    // jQuery＆qunitを使用したサンプルです。
+    $(function(){
+      
+      test("sample test", function() {
+        expect(2);
+        
+        // 擬似サーバの処理を設定します。
+        setServerMock(function(request, response) {
+          // リクエストで指定した値分、遅延してデータを返すサーバを表現
+          setTimeout(function() {
+            ok(true, "server processing...")
+            
+            // レスポンスとして返却したい文字列を設定します。
+            response.text = "response text...";
+            
+            // レスポンスを成功（200 OK）で返却します。
+            response.success();
+          }, request.params.time);
+        });
+        
+        
+        // ajax呼び出しを行った際に、擬似サーバの処理が呼び出されます。
+        $.ajax({
+          url: "/sample/service?time=100",
+          success: function(response) {
+            equals(response, "response text...");
+            start();
+          }
+        });
+        
+        stop();
+      });
+      
+    });
+
+* 使い方
+    細かい使い方については、docドキュメントと添付のテストケースを参考にしてみてください。
+
+* 制限
+    このライブラリ自体は、他のライブラリに対して依存はありませんが、
+    このライブラリを利用するためには、qunit等のajax処理をサポートする
+    テスティングフレームワークが必要となります。
+    
+    XMLHttpRequestを上書きして擬似サーバを表現するため、JSONPなど、
+    別の通信手段を使った処理には対応できません。
+
+* サポートブラウザ
+    - Firefox 2.0+
+    - Internet Explorer 6+
+    - Safari 3+
+    - Opera 9+
+    - Chrome 1+
+

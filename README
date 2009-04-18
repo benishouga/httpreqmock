@@ -1,0 +1,59 @@
+
+httpreqmock
+    version - 1.0.0.0
+    auther - akito moriki(benishouga@gmail.com)
+
+* about
+    - httpreqmock is a javascript library to support test of a ajax application.
+    - httpreqmock overrides XMLHttpRequest, and expresses the server.
+
+* license
+    - httpreqmock is released under the MIT License.
+    - http://www.opensource.org/licenses/mit-license.php
+
+* sample
+    // with jquery and qunit
+    $(function(){
+      
+      test("sample test", function() {
+        expect(2);
+        
+        // Set the server processing.
+        setServerMock(function(request, response) {
+          // Delayed server
+          setTimeout(function() {
+            ok(true, "server processing...")
+            
+            // Set any text of the response.
+            response.text = "response text...";
+            
+            // Return response with success(200 OK).
+            response.success();
+          }, request.params.time);
+        });
+        
+        
+        // The set server processing is called.
+        $.ajax({
+          url: "/sample/service?time=100",
+          success: function(response) {
+            equals(response, "response text...");
+            start();
+          }
+        });
+        
+        stop();
+      });
+      
+    });
+
+* supports browsers
+    - Firefox 2.0+
+    - Internet Explorer 6+
+    - Safari 3+
+    - Opera 9+
+    - Chrome 1+
+
+
+
+
