@@ -24,7 +24,8 @@ httpreqmock
     XMLHttpRequestを上書きして擬似サーバを表現するため、jqueryのajax機能等に対してもテストが可能です。
 
 * サンプル
-    // jQuery＆qunitを使用したサンプルです。
+    // httpreqmock.jsを使ったサンプルです。
+    // テスティングフレームワークとして、jQueryとqunitを利用しています。
     $(function(){
       
       test("sample test", function() {

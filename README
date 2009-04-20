@@ -12,7 +12,7 @@ httpreqmock
     - http://www.opensource.org/licenses/mit-license.php
 
 * sample
-    // with jquery and qunit
+    // Includes httpreqmock.js with jquery and qunit.
     $(function(){
       
       test("sample test", function() {
